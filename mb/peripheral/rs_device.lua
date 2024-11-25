@@ -9,40 +9,40 @@ local Table = require "mb.algorithm.table"
 ---@field private _side string Side of the redstone controller to use.
 ---@field private _inverted boolean If set redstone signal will be inverted.
 local RsDevice = {}
+RsDevice.__index = RsDevice
 
 --- Constructor
 ---@param name string? Wrapped redstone controller name. Passing nil results in the computer being used.
 ---@param side string Side of the redstone controller to use.
 ---@param params table? Optional parameters.
-function RsDevice:new(name, side, params)
+function RsDevice.new(name, side, params)
   Expect.expect(1, name, "string", "nil")
   Expect.expect(2, side, "string")
   Expect.expect(3, params, "table", "nil")
-
+  
   if params then
     Expect.field(params, "inverted", "boolean", "nil")
   end
-
-  local _object = setmetatable({}, self)
-  self.__index = self
+  
+  local _object = setmetatable({}, RsDevice)
   
   local _params = params or {}
   
   if name then
-    self._controller = peripheral.wrap(name)
-    if type == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
+    _object._controller = peripheral.wrap(name)
+    if type == nil or not peripheral.hasType(_object._controller, "redstoneIntegrator") then
       error("invalid controller: " .. name, 2)
     end
   else
-    self._controller = redstone
+    _object._controller = redstone
   end
   
   if not Table.contains_value(redstone.getSides(), side) then
     error("invalid side: " .. side, 2)
   end
   
-  self._side = side
-  self._inverted = _params.inverted or false
+  _object._side = side
+  _object._inverted = _params.inverted or false
   
   return _object
 end

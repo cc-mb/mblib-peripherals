@@ -6,17 +6,15 @@ local RsDevice = require "mb.peripheral.rs_device"
 ---@field private _rs_device RsDevice Wrapped redstone controller.
 ---@export
 local Door = {}
+Door.__index = Door
 
 --- Constructor
 ---@param name string? Wrapped redstone controller name. Passing nil results in the computer being used.
 ---@param side string Side of the redstone controller to use.
 ---@param params table? Optional parameters.
-function Door:new(name, side, params)
-  local _object = setmetatable({}, self)
-  self.__index = self
-  
-  self._rs_device = RsDevice:new(name, side, params)
-  
+function Door.new(name, side, params)
+  local _object = setmetatable({}, Door)
+  _object._rs_device = RsDevice.new(name, side, params)
   return _object
 end
 
