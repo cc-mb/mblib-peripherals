@@ -13,9 +13,9 @@ Door.__index = Door
 ---@param side string Side of the redstone controller to use.
 ---@param params table? Optional parameters.
 function Door.new(name, side, params)
-  local _object = setmetatable({}, Door)
-  _object._rs_device = RsDevice.new(name, side, params)
-  return _object
+  local self = setmetatable({}, Door)
+  self._rs_device = RsDevice.new(name, side, params)
+  return self
 end
 
 -- Check if door is open.

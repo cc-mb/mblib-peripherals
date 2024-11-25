@@ -24,27 +24,27 @@ function RsDevice.new(name, side, params)
     Expect.field(params, "inverted", "boolean", "nil")
   end
   
-  local _object = setmetatable({}, RsDevice)
+  local self = setmetatable({}, RsDevice)
   
-  local _params = params or {}
+  local params = params or {}
   
   if name then
-    _object._controller = peripheral.wrap(name)
-    if type == nil or not peripheral.hasType(_object._controller, "redstoneIntegrator") then
+    self._controller = peripheral.wrap(name)
+    if type == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
       error("invalid controller: " .. name, 2)
     end
   else
-    _object._controller = redstone
+    self._controller = redstone
   end
   
   if not Table.contains_value(redstone.getSides(), side) then
     error("invalid side: " .. side, 2)
   end
   
-  _object._side = side
-  _object._inverted = _params.inverted or false
+  self._side = side
+  self._inverted = self.inverted or false
   
-  return _object
+  return self
 end
 
 -- Check if door is open.

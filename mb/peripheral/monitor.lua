@@ -11,12 +11,12 @@ Monitor.__index = Monitor
 function Monitor.new(name)
   Expect.expect(1, name, "string", "nil")
 
-  local _object = peripheral.wrap(name or "monitor")
-  if not _object and peripheral.hasType(_object, "monitor") then
+  local self = peripheral.wrap(name or "monitor")
+  if not self and peripheral.hasType(self, "monitor") then
     error("invalid monitor: " .. name, 2)
   end
   
-  return _object
+  return self
 end
 
 return Monitor
