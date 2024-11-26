@@ -6,7 +6,8 @@ local FILES = {
   "mb/algorithm/table.lua",
   "mb/peripheral/door.lua",
   "mb/peripheral/monitor.lua",
-  "mb/peripheral/rs_device.lua"
+  "mb/peripheral/rs_device.lua",
+  "mb/peripheral/rs_reader.lua"
 }
 
 for _, file in ipairs(FILES) do

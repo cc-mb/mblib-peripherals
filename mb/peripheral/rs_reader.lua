@@ -24,7 +24,7 @@ function RsReader.new(name, side, params)
     Expect.field(params, "inverted", "boolean", "nil")
   end
   
-  local self = setmetatable({}, RsDevice)
+  local self = setmetatable({}, RsReader)
   
   local params = params or {}
   
