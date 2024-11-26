@@ -4,18 +4,18 @@ local Expect = require "cc.expect"
 local Table = require "mb.algorithm.table"
 
 --- Redstone wrapper.
----@class RsDevice
+---@class RsReader
 ---@field private _controller table Wrapped redstone controller.
 ---@field private _side string Side of the redstone controller to use.
 ---@field private _inverted boolean If set redstone signal will be inverted.
-local RsDevice = {}
-RsDevice.__index = RsDevice
+local RsReader = {}
+RsReader.__index = RsReader
 
 --- Constructor
 ---@param name string? Wrapped redstone controller name. Passing nil results in the computer being used.
 ---@param side string Side of the redstone controller to use.
 ---@param params table? Optional parameters.
-function RsDevice.new(name, side, params)
+function RsReader.new(name, side, params)
   Expect.expect(1, name, "string", "nil")
   Expect.expect(2, side, "string")
   Expect.expect(3, params, "table", "nil")
@@ -47,9 +47,9 @@ function RsDevice.new(name, side, params)
   return self
 end
 
--- Check if the output is active.
-function RsDevice:is_on()
-  local state = self._controller.getOutput(self._side)
+-- Check if input is active.
+function RsReader:is_on()
+  local state = self._controller.getInput(self._side)
   if self._inverted then
     return not state
   else
@@ -57,19 +57,4 @@ function RsDevice:is_on()
   end
 end
 
--- Set the output active.
-function RsDevice:set_on()
-  self._controller.setOutput(self._side, not self._inverted)
-end
-
--- Set the output inactive.
-function RsDevice:set_off()
-  self._controller.setOutput(self._side, self._inverted)
-end
-
--- Toggle the output.
-function RsDevice:toggle()
-  self._controller.setOutput(self._size, not self:is_open())
-end
-
-return RsDevice
+return RsReader
