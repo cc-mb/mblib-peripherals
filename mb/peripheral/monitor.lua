@@ -6,16 +6,20 @@ local Expect = require "cc.expect"
 local Monitor = {}
 Monitor.__index = Monitor
 
---- Pseudo-constructor
----@param name string? Name of the monitor. Passing nil results in any monitor.
-function Monitor.new(name)
-  Expect.expect(1, name, "string", "nil")
+--- Monitor creation parameters.
+---@class MonitorCreationParameters
+---@field name string? Monitor name. Passing nil results in any monitor.
 
-  local self = peripheral.wrap(name or "monitor")
+--- Pseudo-constructor
+---@param params MonitorCreationParameters
+function Monitor.new(params)
+  Expect.field(params, "name", "string", "nil")
+
+  local self = peripheral.wrap(params.name or "monitor")
   if not self and peripheral.hasType(self, "monitor") then
-    error("invalid monitor: " .. name, 2)
+    error("invalid monitor: " .. params.name, 2)
   end
-  
+
   return self
 end
 

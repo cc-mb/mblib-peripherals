@@ -8,13 +8,17 @@ local RsDevice = require "mb.peripheral.rs_device"
 local Door = {}
 Door.__index = Door
 
+--- Door creation parameters.
+---@class DoorCreationParameters
+---@field name string? Wrapped redstone controller name. Passing nil results in the computer being used.
+---@field side string Side of the redstone controller to use.
+---@field inverted boolean? If set, signals will be inverted.
+
 --- Constructor
----@param name string? Wrapped redstone controller name. Passing nil results in the computer being used.
----@param side string Side of the redstone controller to use.
----@param params table? Optional parameters.
-function Door.new(name, side, params)
+---@param params DoorCreationParameters
+function Door.new(params)
   local self = setmetatable({}, Door)
-  self._rs_device = RsDevice.new(name, side, params)
+  self._rs_device = RsDevice.new{ name = params.name, side = params.side, inverted = params.inverted }
   return self
 end
 

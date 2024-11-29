@@ -11,39 +11,37 @@ local Table = require "mb.algorithm.table"
 local RsReader = {}
 RsReader.__index = RsReader
 
+--- Redstone reader creation parameters.
+---@class RsReaderCreationParameters
+---@field name string? Wrapped redstone controller name. Passing nil results in the computer being used.
+---@field side string Side of the redstone controller to use.
+---@field inverted boolean? If set, signals will be inverted.
+
 --- Constructor
----@param name string? Wrapped redstone controller name. Passing nil results in the computer being used.
----@param side string Side of the redstone controller to use.
----@param params table? Optional parameters.
-function RsReader.new(name, side, params)
-  Expect.expect(1, name, "string", "nil")
-  Expect.expect(2, side, "string")
-  Expect.expect(3, params, "table", "nil")
-  
-  if params then
-    Expect.field(params, "inverted", "boolean", "nil")
-  end
-  
+---@param params RsReaderCreationParameters
+function RsReader.new(params)
+  Expect.field(params, "name", "string", "nil")
+  Expect.field(params, "side", "string")
+  Expect.field(params, "inverted", "boolean", "nil")
+
   local self = setmetatable({}, RsReader)
-  
-  local params = params or {}
-  
-  if name then
-    self._controller = peripheral.wrap(name)
+
+  if params.name then
+    self._controller = peripheral.wrap(params.name)
     if type == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
-      error("invalid controller: " .. name, 2)
+      error("invalid controller: " .. params.name, 2)
     end
   else
     self._controller = redstone
   end
-  
-  if not Table.contains_value(redstone.getSides(), side) then
-    error("invalid side: " .. side, 2)
+
+  if not Table.contains_value(redstone.getSides(), params.side) then
+    error("invalid side: " .. params.side, 2)
   end
-  
-  self._side = side
+
+  self._side = params.side
   self._inverted = self.inverted or false
-  
+
   return self
 end
 
