@@ -22,7 +22,7 @@ function RsDevice.new(params)
 
   if params.name then
     self._controller = peripheral.wrap(params.name)
-    if type == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
+    if self._controller == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
       error("invalid controller: " .. params.name, 2)
     end
   else
@@ -39,7 +39,8 @@ function RsDevice.new(params)
   return self
 end
 
--- Check if the output is active.
+--- Check if the output is active.
+---@return boolean
 function RsDevice:is_on()
   local state = self._controller.getOutput(self._side)
   if self._inverted then
@@ -49,17 +50,17 @@ function RsDevice:is_on()
   end
 end
 
--- Set the output active.
+--- Set the output active.
 function RsDevice:set_on()
   self._controller.setOutput(self._side, not self._inverted)
 end
 
--- Set the output inactive.
+--- Set the output inactive.
 function RsDevice:set_off()
   self._controller.setOutput(self._side, self._inverted)
 end
 
--- Toggle the output.
+--- Toggle the output.
 function RsDevice:toggle()
   self._controller.setOutput(self._size, not self:is_open())
 end

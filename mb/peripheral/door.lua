@@ -22,22 +22,23 @@ function Door.new(params)
   return self
 end
 
--- Check if door is open.
+--- Check if door is open.
+---@return boolean
 function Door:is_open()
   return self._rs_device:is_on()
 end
 
--- Open the door.
+--- Open the door.
 function Door:open()
   self._rs_device:set_on()
 end
 
--- Close the door.
+--- Close the door.
 function Door:close()
   self._rs_device:set_off()
 end
 
--- Toggle the door.
+--- Toggle the door.
 function Door:toggle()
   self._rs_device:toggle()
 end

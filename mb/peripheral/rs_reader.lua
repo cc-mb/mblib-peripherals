@@ -22,7 +22,7 @@ function RsReader.new(params)
 
   if params.name then
     self._controller = peripheral.wrap(params.name)
-    if type == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
+    if self._controller == nil or not peripheral.hasType(self._controller, "redstoneIntegrator") then
       error("invalid controller: " .. params.name, 2)
     end
   else
@@ -39,7 +39,8 @@ function RsReader.new(params)
   return self
 end
 
--- Check if input is active.
+--- Check if input is active.
+---@return boolean
 function RsReader:is_on()
   local state = self._controller.getInput(self._side)
   if self._inverted then
