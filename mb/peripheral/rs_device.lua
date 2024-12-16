@@ -1,6 +1,4 @@
 -- Imports
-local Expect = require "cc.expect"
-
 local Table = require "mb.algorithm.table"
 
 --- Redstone wrapper.
@@ -20,10 +18,6 @@ RsDevice.__index = RsDevice
 --- Constructor
 ---@param params RsDeviceCreationParameters
 function RsDevice.new(params)
-  Expect.field(params, "name", "string", "nil")
-  Expect.field(params, "side", "string")
-  Expect.field(params, "inverted", "boolean", "nil")
-
   local self = setmetatable({}, RsDevice)
 
   if params.name then

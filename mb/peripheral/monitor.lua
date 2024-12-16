@@ -1,6 +1,3 @@
--- Imports
-local Expect = require "cc.expect"
-
 --- Helper for getting monitors from name.
 ---@class Monitor
 local Monitor = {}
@@ -13,8 +10,6 @@ Monitor.__index = Monitor
 --- Pseudo-constructor
 ---@param params MonitorCreationParameters
 function Monitor.new(params)
-  Expect.field(params, "name", "string", "nil")
-
   local self = peripheral.wrap(params.name or "monitor")
   if not self and peripheral.hasType(self, "monitor") then
     error("invalid monitor: " .. params.name, 2)
